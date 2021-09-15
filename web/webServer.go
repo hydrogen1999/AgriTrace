@@ -36,7 +36,7 @@ func WebStart(app controller.Application) {
 	http.HandleFunc("/upload", app.UploadFile)
 
 	fmt.Println("Start the web service, the listening port number is: 8001")
-	err := http.ListenAndServe("localhost:8001", nil)
+	err := http.ListenAndServe("0.0.0.0:8001", nil)
 	if err != nil {
 		fmt.Printf("Web service failed to start: %v", err)
 	}
