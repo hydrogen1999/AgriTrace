@@ -1,14 +1,13 @@
 .PHONY: all dev clean build env-up env-down run
 
-all: clean build env-up run
+all: clean build env-up run 
 
-dev: build run
-
+dev: build run 
 ##### BUILD
 build:
 	@echo "Build ..."
 	# @dep ensure
-	@go build
+	@go build 2>&1 > /dev/null 
 	@echo "Build done"
 
 ##### ENV
@@ -25,7 +24,7 @@ env-down:
 ##### RUN
 run:
 	@echo "Start app ..."
-	@./Fabric-Traceability
+	@./Fabric-Traceability> /dev/null 2>&1
 
 ##### CLEAN
 clean: env-down
@@ -34,4 +33,3 @@ clean: env-down
 	@docker rm -f -v `docker ps -a --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null || true
 	@docker rmi `docker images --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null || true
 	@echo "Clean up done"
-
