@@ -1,13 +1,14 @@
 .PHONY: all dev clean build env-up env-down run
 
-all: clean build env-up run 
+all: clean build env-up run
 
-dev: build run 
+dev: build run
+
 ##### BUILD
 build:
 	@echo "Build ..."
 	# @dep ensure
-	@go build 2>&1 > /dev/null 
+	@go build
 	@echo "Build done"
 
 ##### ENV
@@ -24,7 +25,7 @@ env-down:
 ##### RUN
 run:
 	@echo "Start app ..."
-	@./Fabric-Traceability> /dev/null 2>&1
+	@./Fabric-Traceability
 
 ##### CLEAN
 clean: env-down

@@ -25,10 +25,26 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    {{range .Com.Historys}}
+                <script type="text/javascript">
+                    function onReady()
+                    {
+                        var qrcode = new QRCode("id_qrcode", {
+                            text:"{{.Commodity.Primarykey}}",
+                            width:150,
+                            height:150,
+                            colorDark:"#000000",
+                            colorLight:"#ffffff",
+                            correctLevel:QRCode.CorrectLevel.H
+                        });
+                    }
+                </script>
+    {{end}}
 </head>
 
-<body >
+<body onload=onReady()>
     <nav class="navbar navbar-inverse navbar-fixed-top" style="box-shadow: 0px 0px 20px 9px;">
         <div class="container">
             <div class="navbar-header"><a class="navbar-brand" href="index.html"
@@ -104,7 +120,9 @@
             {{end}}
         </div>
         <div class="row" style="margin-top: 31px;">
-            <div class="col-md-4"><img class="img-responsive" src="{{.Com.Photo}}"></div>
+            <div class="col-md-4">
+                <img class="img-responsive" src="{{.Com.Photo}}">
+            </div>
             <div class="col-md-4">
                 <div>
                     <p>
@@ -116,25 +134,17 @@
                         <span>{{.Com.Primarykey}}</span>
                     </p>
                     <p>
-                        <span>Thông số：</span>
-                        <span>{{.Com.Specification}}</span>
-                    </p>
-                    <p>
-                        <span>Mô tả：</span>
-                        <span>{{.Com.Des}}</span>
+                        <span>Nhãn hiệu：</span>
+                        <span>{{.Com.Brand}}</span>
                     </p>
                     <p>
                         <span>Nhà sản xuất：</span>
                         <span>{{.Com.Source}}</span>
                     </p>
                     <p>
-                        <span>Ghi chú：</span>
-                        <span>{{.Com.Remarks}}</span>
+                        <span>Thông số：</span>
+                        <span>{{.Com.Specification}}</span>
                     </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
                     <p>
                         <span>Hạn sử dụng：</span>
                         <span>{{.Com.ShelfLife}}</span>
@@ -144,9 +154,19 @@
                         <span>{{.Com.StorageMethod}}</span>
                     </p>
                     <p>
-                        <span>Nhãn hiệu：</span>
-                        <span>{{.Com.Brand}}</span>
+                        <span>Mô tả：</span>
+                        <span>{{.Com.Des}}</span>
                     </p>
+                    
+                    <p>
+                        <span>Ghi chú：</span>
+                        <span>{{.Com.Remarks}}</span>
+                    </p>
+                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
                     <p>
                         <span>Nhà cung cấp：</span>
                         <span>{{.Com.Vendor}}</span>
@@ -159,6 +179,9 @@
                     <p>
                         <span>Tiêu chuẩn：</span>
                         <span>{{.Com.ExecutiveStandard}}</span>
+                    </p>
+                    <p>
+                        <span>Mã QR：</span><br><br><span id="id_qrcode"></span>
                     </p>
                 </div>
             </div>

@@ -25,10 +25,41 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        var a;
+        function docReady(fn) {
+            if (document.readyState === "complete"
+                || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+    
+        docReady(function () {
+            var resultContainer = document.getElementById('qr-reader-results');
+            var lastResult, countResults = 0;
+            function onScanSuccess(decodedText, decodedResult) {
+                if (decodedText !== lastResult) {
+                    ++countResults;
+                    lastResult = decodedText;
+                    document.getElementById("displayText").innerHTML = decodedText;
+                    document.getElementById("displayText").value = decodedText;
+                    a=decodedText;
+                    console.log(`Scan result ${decodedText}`, decodedResult);
+                }
+            }
+    
+            var html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader", { fps: 10, qrbox: 250 });
+            html5QrcodeScanner.render(onScanSuccess);
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
 </head>
 
-<body class="bg-info" style="background: rgb(246,246,246);">
+<body class="bg-info" style="background: rgb(246,246,246);" onload=displayFunction()>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand" href="#"></a><button data-toggle="collapse"
@@ -70,39 +101,52 @@
 
                         <ul class="list-group" style="text-align: center;">
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(14, 50, 160); color: white;">Thịt - Thủy
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(14, 50, 160); color: white;">Thịt - Thủy
                                     hải sản - Trứng</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(171, 24, 224); color: white;" >Rau - Củ -
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(171, 24, 224); color: white;">Rau - Củ -
                                     Trái cây</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(16, 217, 240); color: white; font-size: 20;">Dầu ăn - Gia
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(16, 217, 240); color: white; font-size: 20;">Dầu ăn -
+                                    Gia
                                     vị - Đồ khô</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(150, 240, 6); color: white;font-size: 20">Thực phẩm
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(150, 240, 6); color: white;font-size: 20">Thực phẩm
                                     đông lạnh</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(248, 0, 54); color: white;font-size: 20">Thịt - Thủy
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(248, 0, 54); color: white;font-size: 20">Thịt - Thủy
                                     hải sản - Trứng</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(255, 108, 10); color: white;font-size: 20">Sữa - Sản phẩm
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(255, 108, 10); color: white;font-size: 20">Sữa - Sản
+                                    phẩm
                                     từ sữa</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action " style="background-color: rgb(22, 214, 77); color: white;font-size: 20">Đồ uống - Giải
+                                <li class="list-group-item list-group-item-action "
+                                    style="background-color: rgb(22, 214, 77); color: white;font-size: 20">Đồ uống -
+                                    Giải
                                     khát</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action " style="background-color: rgb(90, 124, 250); color: white;font-size: 20">Bánh kẹo - Đồ ăn
+                                <li class="list-group-item list-group-item-action "
+                                    style="background-color: rgb(90, 124, 250); color: white;font-size: 20">Bánh kẹo -
+                                    Đồ ăn
                                     vặt</li>
                             </a><br>
                             <a href="#">
-                                <li class="list-group-item list-group-item-action" style="background-color: rgb(130, 130, 130); color: white;font-size: 20">Hóa phẩm -
+                                <li class="list-group-item list-group-item-action"
+                                    style="background-color: rgb(130, 130, 130); color: white;font-size: 20">Hóa phẩm -
                                     Giấy</li>
                             </a>
                         </ul>
@@ -135,13 +179,15 @@
                                         class="fas fa-file-contract" style="color: #234435;font-size: 24px;"></i>&nbsp;
                                     Mã sản phẩm:<input type="text" placeholder="Nhập mã sản phẩm" name="entityID"
                                         style="width: 204px;margin: 10px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;background: #fffffe;height: 40px;color: rgb(0,0,0);font-size: 16px;border-color: #d6d8d3;border-top-color: rgb(233,237,227);"
-                                        autofocus=""></p>
+                                        autofocus="" id="displayText" value=""></p>
                             </div>
                             <div class="col-md-6" style="border-left-width: 1px;border-left-style: groove;">
                                 <p style="text-align: center;font-size: 20px;margin: 27px;"><i
                                         class="glyphicon glyphicon-qrcode"
                                         style="color: #234435;font-size: 25px;"></i>&nbsp; Hoặc truy xuất bằng mã
-                                    QR:<input type="file" style="margin: 6px 102px;padding: 14px;"></p>
+                                    QR:
+                                <div id="qr-reader" style="width:500px"></div>
+                                <div id="qr-reader-results"></div>
                             </div>
                             <br><br>
                             <div class="col text-center">
